@@ -1,0 +1,17 @@
+# Maven / Java
+target/
+*.class
+
+# Azure Functions
+local.settings.json
+bin/
+obj/
+
+# Azurite (emulador local)
+__azurite_db*
+__blobstorage__/
+__queuestorage__/
+
+# IDE
+.idea/
+.vscode/
