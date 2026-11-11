@@ -49,6 +49,11 @@
             <version>2.23.4</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.azure</groupId>
+            <artifactId>azure-communication-email</artifactId>
+            <version>1.0.21</version>
+        </dependency>
     </dependencies>
 
     <build>
