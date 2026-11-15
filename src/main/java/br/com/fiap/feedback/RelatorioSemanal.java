@@ -6,7 +6,6 @@ import com.microsoft.azure.functions.annotation.*;
 import com.azure.data.tables.TableClient;
 import com.azure.data.tables.TableClientBuilder;
 import com.azure.data.tables.models.TableEntity;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,7 +14,7 @@ public class RelatorioSemanal {
     public void run(
             @TimerTrigger(name = "timerInfo", schedule = "0 0 8 * * 1") String timerInfo,
             final ExecutionContext context) {
-
+        context.getLogger().info("Gerando relatório semanal...");
         String connectionString = System.getenv("AzureWebJobsStorage");
 
         TableClient tableClient = new TableClientBuilder()
@@ -47,7 +46,6 @@ public class RelatorioSemanal {
         context.getLogger().info("Média das notas: " + String.format("%.2f", media));
         context.getLogger().info("Por urgência: " + porUrgencia);
         context.getLogger().info("Por dia: " + porDia);
-        context.getLogger().info("Gerando relatório semanal...");
 
     }
 }
