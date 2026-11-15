@@ -1,29 +1,29 @@
-name: Deploy Azure Functions                                                           
-   
-  "on":                                                                                   
-    push:         
-      branches:
-        - main
+name: Deploy Azure Functions
 
-  jobs:
-    deploy:
-      runs-on: ubuntu-latest
-      steps:
-        - name: Checkout código
-          uses: actions/checkout@v4
+on:
+  push:
+    branches:
+      - main
 
-        - name: Configurar Java 21
-          uses: actions/setup-java@v4
-          with:
-            java-version: '21'
-            distribution: 'microsoft'
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout codigo
+        uses: actions/checkout@v4
 
-        - name: Build com Maven
-          run: mvn clean package
+      - name: Configurar Java 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'microsoft'
 
-        - name: Deploy para Azure Functions
-          uses: Azure/functions-action@v1
-          with:
-            app-name: feedbackserverlessah
-            package: target/azure-functions/feedbackserverlessah
-            publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
+      - name: Build com Maven
+        run: mvn clean package
+
+      - name: Deploy para Azure Functions
+        uses: Azure/functions-action@v1
+        with:
+          app-name: feedbackserverlessah
+          package: target/azure-functions/feedbackserverlessah
+          publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
