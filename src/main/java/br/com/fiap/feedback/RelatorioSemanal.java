@@ -15,7 +15,7 @@ import java.util.Map;
 public class RelatorioSemanal {
     @FunctionName("relatorio-semanal")
     public void run(
-            @TimerTrigger(name = "timerInfo", schedule = "0 0 8 * * 1") String timerInfo,
+            @TimerTrigger(name = "timerInfo", schedule = "0 * * * * *") String timerInfo,
             final ExecutionContext context) {
         context.getLogger().info("Gerando relatório semanal...");
         String connectionString = System.getenv("AzureWebJobsStorage");
