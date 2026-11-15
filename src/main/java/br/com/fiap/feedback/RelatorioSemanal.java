@@ -3,6 +3,9 @@ package br.com.fiap.feedback;
 import com.microsoft.azure.functions.*;
 import com.microsoft.azure.functions.annotation.*;
 
+import com.azure.communication.email.*;
+import com.azure.communication.email.models.*;
+
 import com.azure.data.tables.TableClient;
 import com.azure.data.tables.TableClientBuilder;
 import com.azure.data.tables.models.TableEntity;
@@ -12,7 +15,7 @@ import java.util.Map;
 public class RelatorioSemanal {
     @FunctionName("relatorio-semanal")
     public void run(
-            @TimerTrigger(name = "timerInfo", schedule = "0 0 8 * * 1") String timerInfo,
+            @TimerTrigger(name = "timerInfo", schedule = "0 * * * * *") String timerInfo,
             final ExecutionContext context) {
         context.getLogger().info("Gerando relatório semanal...");
         String connectionString = System.getenv("AzureWebJobsStorage");
@@ -46,6 +49,31 @@ public class RelatorioSemanal {
         context.getLogger().info("Média das notas: " + String.format("%.2f", media));
         context.getLogger().info("Por urgência: " + porUrgencia);
         context.getLogger().info("Por dia: " + porDia);
+
+        String emailConnectionString = System.getenv("COMMUNICATION_CONNECTION_STRING");
+        String adminEmail = System.getenv("ADMIN_EMAIL");
+        String senderEmail = System.getenv("SENDER_EMAIL");
+
+        if (emailConnectionString != null) {
+            String corpo = "=== RELATÓRIO SEMANAL ===\n" +
+                    "Total de avaliações: " + total + "\n" +
+                    "Média das notas: " + String.format("%.2f", media) + "\n" +
+                    "Por urgência: " + porUrgencia + "\n" +
+                    "Por dia: " + porDia;
+
+            EmailClient emailClient = new EmailClientBuilder()
+                    .connectionString(emailConnectionString)
+                    .buildClient();
+
+            EmailMessage message = new EmailMessage()
+                    .setSenderAddress(senderEmail)
+                    .setToRecipients(new EmailAddress(adminEmail))
+                    .setSubject("Relatório Semanal de Avaliações")
+                    .setBodyPlainText(corpo);
+
+            emailClient.beginSend(message).waitForCompletion();
+            context.getLogger().info("Relatório enviado por e-mail para: " + adminEmail);
+        }
 
     }
 }

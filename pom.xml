@@ -16,7 +16,7 @@
         <java.version>21</java.version>
         <azure.functions.maven.plugin.version>1.24.0</azure.functions.maven.plugin.version>
         <azure.functions.java.library.version>2.2.0</azure.functions.java.library.version>
-        <functionAppName>feedback-serverless</functionAppName>
+        <functionAppName>feedbackserverlessah</functionAppName>
     </properties>
 
     <dependencies>
@@ -83,7 +83,7 @@
                     <!-- refers
                     https://github.com/microsoft/azure-maven-plugins/wiki/Azure-Functions:-Configuration-Details#supported-regions
                     for all valid values -->
-                    <region>eastus</region>
+                    <region>westus3</region>
                     <!-- function pricingTier, default to be consumption if not specified -->
                     <!-- refers
                     https://github.com/microsoft/azure-maven-plugins/wiki/Azure-Functions:-Configuration-Details#supported-pricing-tiers
